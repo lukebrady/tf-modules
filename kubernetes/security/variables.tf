@@ -3,6 +3,11 @@ variable "vpc_id" {
   type        = string
 }
 
+variable "cluster_name" {
+  description = "Identifier for the Kubernetes cluster to prefix resource names."
+  type        = string
+}
+
 variable "ssh_ingress_cidrs" {
   description = "CIDR blocks allowed to SSH."
   type        = list(string)

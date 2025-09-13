@@ -32,7 +32,9 @@ echo \
 apt-get update && apt-get install -y containerd.io
 mkdir -p /etc/containerd
 containerd config default | tee /etc/containerd/config.toml
+sed -i 's/SystemdCgroup = false/SystemdCgroup = true/' /etc/containerd/config.toml
 systemctl enable --now containerd
+systemctl restart containerd
 
 # Kubernetes packages
 curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://dl.k8s.io/apt/doc/apt-key.gpg

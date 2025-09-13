@@ -34,7 +34,7 @@ resource "aws_instance" "this" {
   }
 
   tags = merge(var.tags, {
-    Name = format("%s-%02d", var.name_prefix, count.index)
+    Name = format("%s-%02d", var.name_prefix, count.index + 1)
   })
 }
 

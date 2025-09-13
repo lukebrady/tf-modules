@@ -18,7 +18,8 @@ locals {
 }
 
 module "sg" {
-  source                = "../kthw-security"
+  source                = "../security"
+  cluster_name          = var.cluster_name
   vpc_id                = var.vpc_id
   ssh_ingress_cidrs     = var.ssh_ingress_cidrs
   api_ingress_cidrs     = var.api_ingress_cidrs
@@ -96,7 +97,7 @@ locals {
 }
 
 module "control_plane" {
-  source                = "../ec2-instance"
+  source                = "../../ec2-instance"
   name_prefix           = "${var.cluster_name}-cp"
   ami_id                = var.ami_id
   instance_type         = var.control_plane_instance_type
@@ -112,7 +113,7 @@ module "control_plane" {
 }
 
 module "workers" {
-  source                = "../ec2-instance"
+  source                = "../../ec2-instance"
   name_prefix           = "${var.cluster_name}-worker"
   ami_id                = var.ami_id
   instance_type         = var.worker_instance_type

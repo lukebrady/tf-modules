@@ -9,7 +9,7 @@ terraform {
 }
 
 resource "aws_security_group" "control_plane" {
-  name        = "kthw-control-plane"
+  name        = "${var.cluster_name}-control-plane"
   description = "Control plane SG for Kubernetes"
   vpc_id      = var.vpc_id
 
@@ -20,11 +20,11 @@ resource "aws_security_group" "control_plane" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = merge(var.tags, { Name = "kthw-control-plane" })
+  tags = merge(var.tags, { Name = "${var.cluster_name}-control-plane" })
 }
 
 resource "aws_security_group" "worker" {
-  name        = "kthw-worker"
+  name        = "${var.cluster_name}-worker"
   description = "Worker SG for Kubernetes"
   vpc_id      = var.vpc_id
 
@@ -35,7 +35,7 @@ resource "aws_security_group" "worker" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = merge(var.tags, { Name = "kthw-worker" })
+  tags = merge(var.tags, { Name = "${var.cluster_name}-worker" })
 }
 
 # SSH to both groups
