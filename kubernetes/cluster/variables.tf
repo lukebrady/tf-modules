@@ -48,11 +48,6 @@ variable "worker_instance_type" {
   default     = "t3.large"
 }
 
-variable "ssh_key_name" {
-  description = "EC2 key pair name."
-  type        = string
-}
-
 variable "associate_public_ip" {
   description = "Attach public IPs to instances."
   type        = bool

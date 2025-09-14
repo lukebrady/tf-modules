@@ -101,7 +101,6 @@ module "control_plane" {
   name_prefix          = "${var.cluster_name}-cp"
   ami_id               = var.ami_id == null ? data.aws_ami.ubuntu_server_2404.id : var.ami_id
   instance_type        = var.control_plane_instance_type
-  key_name             = var.ssh_key_name
   security_group_ids   = [module.sg.control_plane_sg_id]
   subnet_ids           = var.control_plane_subnet_ids
   count                = var.control_plane_count
@@ -117,7 +116,6 @@ module "workers" {
   name_prefix          = "${var.cluster_name}-worker"
   ami_id               = var.ami_id == null ? data.aws_ami.ubuntu_server_2404.id : var.ami_id
   instance_type        = var.worker_instance_type
-  key_name             = var.ssh_key_name
   security_group_ids   = [module.sg.worker_sg_id]
   subnet_ids           = var.worker_subnet_ids
   count                = var.worker_count
