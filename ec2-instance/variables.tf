@@ -16,6 +16,7 @@ variable "instance_type" {
 variable "key_name" {
   description = "Existing EC2 key pair name for SSH."
   type        = string
+  default     = null
 }
 
 variable "security_group_ids" {
