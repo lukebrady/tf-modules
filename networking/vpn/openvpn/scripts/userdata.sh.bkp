@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+
+# First, ensure the userdata script is run as root.
+# This ensures that all of the commands below can be run successfully.
+if [[ $(whoami) -ne "root" ]]; then
+    echo "This script must be run as root."
+    exit 1
+fi
+
+hostnamectl set-hostname openvpn
+
+# Install OpenVPN and EasyRSA.
+apt update && apt upgrade -y
+apt install -y openvpn easy-rsa
+
+# Create and configure the OpenVPN user.
+useradd openvpn
+usermod -s /bin/bash openvpn
+usermod -d /home/openvpn openvpn
+
+mkdir -p /home/openvpn/easy-rsa
+ln -s /usr/share/easy-rsa/* /home/openvpn/easy-rsa/
+
+chown openvpn /home/openvpn/easy-rsa
+chmod 700 /home/openvpn/easy-rsa/
+
+cat > /home/openvpn/easy-rsa/vars <<EOL
+set_var EASYRSA_REQ_COUNTRY    "US"
+set_var EASYRSA_REQ_PROVINCE   "NewYork"
+set_var EASYRSA_REQ_CITY       "New York City"
+set_var EASYRSA_REQ_ORG        "DigitalOcean"
+set_var EASYRSA_REQ_EMAIL      "admin@example.com"
+set_var EASYRSA_REQ_OU         "Community"
+set_var EASYRSA_ALGO "ec"
+set_var EASYRSA_DIGEST "sha512"
+EOL
+
+cd /home/openvpn/easy-rsa/
+./easyrsa init-pki
+./easyrsa gen-req server nopass
+./easyrsa build-ca nopass
+./easyrsa sign-req server server
+
+cp /home/openvpn/easy-rsa/pki/private/server.key /etc/openvpn/server/
+cp /home/openvpn/easy-rsa/pki/issued/server.crt /etc/openvpn/server/
+cp /home/openvpn/easy-rsa/pki/ca.crt /etc/openvpn/server/
+
+openvpn --genkey secret ta.key
+cp ta.key /etc/openvpn/server
+
+
+mkdir -p /home/openvpn/client-configs/keys
+chmod -R 700 /home/openvpn/client-configs
+cp pki/private/client1.key /home/openvpn/client-configs/keys/
+./easyrsa sign-req client client1
+
+cp /home/openvpn/easy-rsa/pki/issued/client1.crt /home/openvpn/client-configs/keys/
+cp /home/openvpn/easy-rsa/ta.key /home/openvpn/client-configs/keys/
+cp /etc/openvpn/server/ca.crt /home/openvpn/client-configs/keys/
+chown openvpn:openvpn /home/openvpn/client-configs/keys/*
