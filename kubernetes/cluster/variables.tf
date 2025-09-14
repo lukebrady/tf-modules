@@ -31,8 +31,9 @@ variable "worker_count" {
 }
 
 variable "ami_id" {
-  description = "AMI ID (Ubuntu 22.04 suggested)."
+  description = "AMI used to deploy the NAT instance"
   type        = string
+  default     = null
 }
 
 variable "control_plane_instance_type" {

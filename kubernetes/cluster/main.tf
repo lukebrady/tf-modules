@@ -99,7 +99,7 @@ locals {
 module "control_plane" {
   source               = "../../ec2-instance"
   name_prefix          = "${var.cluster_name}-cp"
-  ami_id               = var.ami_id
+  ami_id               = var.ami_id == null ? data.aws_ami.ubuntu_server_2404.id : var.ami_id
   instance_type        = var.control_plane_instance_type
   key_name             = var.ssh_key_name
   security_group_ids   = [module.sg.control_plane_sg_id]
@@ -115,7 +115,7 @@ module "control_plane" {
 module "workers" {
   source               = "../../ec2-instance"
   name_prefix          = "${var.cluster_name}-worker"
-  ami_id               = var.ami_id
+  ami_id               = var.ami_id == null ? data.aws_ami.ubuntu_server_2404.id : var.ami_id
   instance_type        = var.worker_instance_type
   key_name             = var.ssh_key_name
   security_group_ids   = [module.sg.worker_sg_id]
