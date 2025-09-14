@@ -134,21 +134,21 @@ output "artifact_bucket_name" {
 }
 
 output "control_plane_private_ips" {
-  value       = module.control_plane.private_ips
+  value       = flatten(module.control_plane[*].private_ips)
   description = "Control plane private IPs."
 }
 
 output "worker_private_ips" {
-  value       = module.workers.private_ips
+  value       = flatten(module.workers[*].private_ips)
   description = "Worker private IPs."
 }
 
 output "control_plane_public_ips" {
-  value       = module.control_plane.public_ips
+  value       = flatten(module.control_plane[*].public_ips)
   description = "Control plane public IPs (if assigned)."
 }
 
 output "worker_public_ips" {
-  value       = module.workers.public_ips
+  value       = flatten(module.workers[*].public_ips)
   description = "Worker public IPs (if assigned)."
 }

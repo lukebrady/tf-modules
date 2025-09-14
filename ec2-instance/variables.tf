@@ -29,7 +29,7 @@ variable "subnet_ids" {
   type        = list(string)
 }
 
-variable "count" {
+variable "instance_count" {
   description = "Number of instances to create."
   type        = number
   default     = 1

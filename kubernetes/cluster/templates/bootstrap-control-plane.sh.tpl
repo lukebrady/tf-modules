@@ -44,11 +44,11 @@ apt-get install -y kubelet kubeadm kubectl
 apt-mark hold kubelet kubeadm kubectl
 
 # Single control-plane bootstrap via kubeadm
-POD_CIDR=${POD_CIDR:-10.244.0.0/16}
+POD_CIDR=$${POD_CIDR:-10.244.0.0/16}
 sysctl net.ipv4.ip_forward=1
 
 if ! [ -f /etc/kubernetes/admin.conf ]; then
-  kubeadm init --pod-network-cidr=${POD_CIDR}
+  kubeadm init --pod-network-cidr=$${POD_CIDR}
 
   mkdir -p $HOME/.kube
   cp -i /etc/kubernetes/admin.conf $HOME/.kube/config

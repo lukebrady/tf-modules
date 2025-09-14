@@ -1,1 +1,47 @@
 kubernetes-the-hard-way/
+# OpenTofu/Terraform caches and providers
+.terraform/
+.tofu/
+.terraform.*
+
+# Local state files and workspaces
+terraform.tfstate
+terraform.tfstate.*
+.tfstate.d/
+
+# Crash logs
+crash.log
+crash.*.log
+
+# Sensitive variable files (use example files instead)
+*.tfvars
+*.tfvars.json
+*.auto.tfvars
+*.auto.tfvars.json
+!*.example.tfvars
+!*.example.tfvars.json
+!*.example.auto.tfvars
+!*.example.auto.tfvars.json
+
+# Plans and outputs
+*.tfplan
+*.plan
+tfplan
+tfplan.*
+plan
+plan.*
+plan.txt
+
+# Local overrides (per-developer)
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Archives from module packaging
+*.zip
+*.tar.gz
+
+# Lockfiles
+.terraform.lock.hcl
+tofu.lock.hcl

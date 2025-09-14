@@ -46,11 +46,11 @@ apt-mark hold kubelet kubeadm kubectl
 # Wait for join script from S3
 mkdir -p /opt/kthw
 JOIN_PATH=/opt/kthw/join.sh
-until aws s3 cp s3://${BUCKET_NAME}/${CLUSTER_NAME}/join.sh ${JOIN_PATH} --region ${REGION}; do
+until aws s3 cp s3://${BUCKET_NAME}/${CLUSTER_NAME}/join.sh $${JOIN_PATH} --region ${REGION}; do
   echo "Waiting for join.sh in s3://${BUCKET_NAME}/${CLUSTER_NAME}/..."
   sleep 10
 done
-chmod +x ${JOIN_PATH}
-bash ${JOIN_PATH}
+chmod +x $${JOIN_PATH}
+bash $${JOIN_PATH}
 
 echo "Worker joined cluster."
